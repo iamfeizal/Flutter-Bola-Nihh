@@ -1,7 +1,8 @@
 import 'dart:convert';
-
+import 'package:final_project_api/page/team_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class TableScreen extends StatefulWidget {
@@ -33,9 +34,18 @@ class _TableScreenState extends State<TableScreen> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getTable();
+  }
+
   Widget buildTable() {
     List<Widget> teams = [];
     for (var team in _table!) {
+      bool containPNG = false;
+      String crestURL = team['team']['crest'];
+      containPNG = crestURL.contains('.png');
       teams.add(
         Padding(
           padding: const EdgeInsets.all(10),
@@ -46,27 +56,48 @@ class _TableScreenState extends State<TableScreen> {
                   children: [
                     team['position'].toString().length > 1
                         ? Text(team['position'].toString() + ' - ',
-                            style: TextStyle(color: Colors.white))
+                            style: GoogleFonts.montserrat(color: Colors.white))
                         : Text(" " + team['position'].toString() + ' - ',
-                            style: TextStyle(color: Colors.white)),
-                    Row(
-                      children: [
-                        SvgPicture.network(
-                          team['team']['crest'],
-                          height: 30,
-                          width: 30,
-                        ),
-                        team['team']['shortName'].toString().length > 11
-                            ? Text(
-                                team['team']['shortName']
-                                        .toString()
-                                        .substring(0, 11) +
-                                    '...',
-                                style: TextStyle(color: Colors.white))
-                            : Text(team['team']['shortName'].toString(),
-                                style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
+                            style: GoogleFonts.montserrat(color: Colors.white)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TeamScreen(
+                                  teamName: team['team']['name'],
+                                  teamId: team['team']['id']),
+                            ));
+                        //print(_table.team.id);
+                      },
+                      child: Row(
+                        children: [
+                          containPNG
+                              ? SizedBox(
+                                  child: Image.network(team['team']['crest']),
+                                  height: 30,
+                                  width: 30,
+                                )
+                              : SizedBox(
+                                  child:
+                                      SvgPicture.network(team['team']['crest']),
+                                  height: 30,
+                                  width: 30,
+                                ),
+                          team['team']['shortName'].toString().length > 11
+                              ? Text(
+                                  team['team']['shortName']
+                                          .toString()
+                                          .substring(0, 11) +
+                                      '...',
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.white))
+                              : Text(team['team']['shortName'].toString(),
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.white)),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -75,17 +106,25 @@ class _TableScreenState extends State<TableScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(team['playedGames'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
                     Text(team['won'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
                     Text(team['draw'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
                     Text(team['lost'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
                     Text(team['goalDifference'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
                     Text(team['points'].toString(),
-                        style: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.montserrat(color: Colors.white)),
+                    SizedBox(
+                      width: 40,
+                      child: Text(
+                        team['form'].toString(),
+                        style: GoogleFonts.montserrat(
+                            fontSize: 10, color: Colors.white),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -97,12 +136,6 @@ class _TableScreenState extends State<TableScreen> {
     return Column(
       children: teams,
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getTable();
   }
 
   @override
@@ -148,18 +181,18 @@ class _TableScreenState extends State<TableScreen> {
                             children: [
                               Text(
                                 'Pos',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 width: 20,
                               ),
                               Text(
                                 'Club',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -170,39 +203,48 @@ class _TableScreenState extends State<TableScreen> {
                             children: [
                               Text(
                                 'PL',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 'W',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 'D',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 'L',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 'GD',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 'Pts',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 40,
+                                child: Text(
+                                  'Last',
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ],
                           ),

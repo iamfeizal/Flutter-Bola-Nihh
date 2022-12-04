@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:matcher/matcher.dart';
 import 'package:final_project_api/widgets/league_container.dart';
 import 'package:final_project_api/page/table_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,110 +19,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Football',
+    return DefaultTabController(
+      length: 6,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Standings', style: GoogleFonts.montserrat()),
+          centerTitle: true,
+          backgroundColor: Color(0xff633a88),
+          bottom: TabBar(
+              isScrollable: true,
+              unselectedLabelColor: Colors.white.withOpacity(0.3),
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(
+                  child:
+                      Text('Premiere League', style: GoogleFonts.montserrat()),
+                ),
+                Tab(
+                  child:
+                      Text('LaLiga Santander', style: GoogleFonts.montserrat()),
+                ),
+                Tab(
+                  child: Text('Bundesliga', style: GoogleFonts.montserrat()),
+                ),
+                Tab(
+                  child: Text('Serie A', style: GoogleFonts.montserrat()),
+                ),
+                Tab(
+                  child: Text('Ligue 1', style: GoogleFonts.montserrat()),
+                ),
+                Tab(
+                  child: Text('Liga Nos', style: GoogleFonts.montserrat()),
+                )
+              ]),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.logout_outlined),
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-          ),
-        ],
-        backgroundColor: Color(0xff633a88),
-      ),
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              const Color(0xff633a88),
-              const Color(0xffd73b53),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(0.0, 1.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp,
-          )),
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                children: [
-                  GestureDetector(
-                    child: LeagueContainer(image: 'assets/images/pl.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'PL'),
-                          ));
-                    },
-                  ),
-                  GestureDetector(
-                    child: LeagueContainer(image: 'assets/images/laliga.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'PD'),
-                          ));
-                    },
-                  ),
-                  GestureDetector(
-                    child:
-                        LeagueContainer(image: 'assets/images/bundesliga.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'BL1'),
-                          ));
-                    },
-                  ),
-                  GestureDetector(
-                    child: LeagueContainer(image: 'assets/images/seria.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'SA'),
-                          ));
-                    },
-                  ),
-                  GestureDetector(
-                    child: LeagueContainer(image: 'assets/images/ligue1.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'FL1'),
-                          ));
-                    },
-                  ),
-                  GestureDetector(
-                    child: LeagueContainer(image: 'assets/images/nos.png'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TableScreen(code: 'PPL'),
-                          ));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+        body: Container(
+          child: TabBarView(children: <Widget>[
+            TableScreen(code: 'PL'),
+            TableScreen(code: 'PD'),
+            TableScreen(code: 'BL1'),
+            TableScreen(code: 'SA'),
+            TableScreen(code: 'FL1'),
+            TableScreen(code: 'PPL'),
+          ]),
         ),
       ),
     );
