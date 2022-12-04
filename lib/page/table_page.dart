@@ -72,16 +72,22 @@ class _TableScreenState extends State<TableScreen> {
                       child: Row(
                         children: [
                           containPNG
-                              ? SizedBox(
-                                  child: Image.network(team['team']['crest']),
-                                  height: 30,
-                                  width: 30,
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 3),
+                                  child: SizedBox(
+                                    child: Image.network(team['team']['crest']),
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                 )
-                              : SizedBox(
-                                  child:
-                                      SvgPicture.network(team['team']['crest']),
-                                  height: 30,
-                                  width: 30,
+                              : Padding(
+                                  padding: const EdgeInsets.only(right: 3),
+                                  child: SizedBox(
+                                    child: SvgPicture.network(
+                                        team['team']['crest']),
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                 ),
                           team['team']['shortName'].toString().length > 11
                               ? Text(
