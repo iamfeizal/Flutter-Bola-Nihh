@@ -1,6 +1,6 @@
-import 'package:final_project_api/page/login_page.dart';
 import 'package:flutter/material.dart';
 
+import '../page/login_page.dart';
 import '../page/register_page.dart';
 
 class AuthPage extends StatefulWidget {

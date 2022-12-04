@@ -1,11 +1,11 @@
 import 'dart:ffi';
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class TeamScreen extends StatefulWidget {
   final String teamName;
@@ -23,7 +23,6 @@ class _TeamScreenState extends State<TeamScreen> {
   String? _address;
   String? _crestURL;
   String? _stadium;
-  String? _email;
   bool _hasBeenPressed = false;
   bool containPNG = false;
 

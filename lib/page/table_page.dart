@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:final_project_api/page/team_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'team_page.dart';
 
 class TableScreen extends StatefulWidget {
   final String code;
@@ -44,8 +44,7 @@ class _TableScreenState extends State<TableScreen> {
     List<Widget> teams = [];
     for (var team in _table!) {
       bool containPNG = false;
-      String crestURL = team['team']['crest'];
-      containPNG = crestURL.contains('.png');
+      containPNG = team['team']['crest'].toString().contains('.png');
       teams.add(
         Padding(
           padding: const EdgeInsets.all(10),
