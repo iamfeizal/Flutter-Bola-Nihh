@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xff633a88),
         content: Text("Login Success"),
         duration: const Duration(milliseconds: 750),
       ));
@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: const Text(
                   "OK",
-                  style: TextStyle(color: Colors.deepPurple),
+                  style: TextStyle(color: Color(0xff633a88)),
                 ),
               ),
             ],
@@ -48,13 +48,6 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     }
-  }
-
-  void snackLoginSuccess(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.deepPurple,
-      content: Text("Login Success"),
-    ));
   }
 
   @override
@@ -82,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: const Text(
                   "OK",
-                  style: TextStyle(color: Colors.deepPurple),
+                  style: TextStyle(color: Color(0xff633a88)),
                 ),
               ),
             ],
@@ -145,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.deepPurple),
+                              borderSide: BorderSide(color: Color(0xff633a88)),
                               borderRadius: BorderRadius.circular(12)),
                           hintText: "Email",
                           fillColor: Colors.grey[200],
@@ -165,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.deepPurple),
+                              borderSide: BorderSide(color: Color(0xff633a88)),
                               borderRadius: BorderRadius.circular(12)),
                           hintText: "Password",
                           fillColor: Colors.grey[200],

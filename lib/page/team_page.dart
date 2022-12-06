@@ -1,12 +1,13 @@
 import 'dart:ffi';
 
 import 'dart:convert';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class TeamScreen extends StatefulWidget {
@@ -53,24 +54,48 @@ class _TeamScreenState extends State<TeamScreen> {
     getTeamDetails();
   }
 
-  // Future addtoBookmark() async {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   var currentUser = _auth.currentUser;
-  //   CollectionReference _bookmarkRef =
-  //       FirebaseFirestore.instance.collection("users-bookmarks");
-  //   return _bookmarkRef
-  //       .doc(currentUser!.email)
-  //       .collection("bookmarks")
-  //       .doc()
-  //       .set({
-  //     "teamName": _teamName,
-  //     "crestURL": _crestURL,
-  //     "address": _address,
-  //     "website": _website,
-  //     "stadium": _stadium,
-  //     "containPNg": containPNG,
-  //   }).then((value) => print('Added to Bookmarks'));
-  // }
+  void snackLoginSuccess(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Color(0xff633a88),
+        content: Text("Added to bookmark"),
+        duration: Duration(milliseconds: 700)));
+  }
+
+  Future addtoBookmark() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _bookmarkRef =
+        FirebaseFirestore.instance.collection("users-bookmarks");
+    return _bookmarkRef
+        .doc(currentUser!.email)
+        .collection("bookmarks")
+        .doc()
+        .set({
+      "teamId": widget.teamId,
+      "teamName": _teamName,
+      "crestURL": _crestURL,
+      "address": _address,
+      "website": _website,
+      "stadium": _stadium,
+    }).then((value) => snackLoginSuccess(context));
+  }
+
+  Future deleteBookmark() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _bookmarkRef =
+        FirebaseFirestore.instance.collection("users-bookmarks");
+    return _bookmarkRef
+        .doc(currentUser!.email)
+        .collection("bookmarks")
+        .where("teamName", isEqualTo: _teamName)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,43 +123,43 @@ class _TeamScreenState extends State<TeamScreen> {
         appBar: AppBar(
           title: Text('Team Details', style: GoogleFonts.montserrat()),
           actions: [
-            // StreamBuilder(
-            //   stream: FirebaseFirestore.instance
-            //       .collection("users-bookmarks")
-            //       .doc(FirebaseAuth.instance.currentUser!.email)
-            //       .collection("bookmarks")
-            //       .where("teamName", isEqualTo: _teamName)
-            //       .snapshots(),
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.data == null) {
-            //       return Text("");
-            //     }
-            //     return IconButton(
-            //       onPressed: () => snapshot.data.docs.length == 0
-            //           ? addtoBookmark()
-            //           : print("already"),
-            //       icon: snapshot.data.docs.length == 0
-            //           ? Icon(
-            //               Icons.bookmark_added,
-            //               color: Colors.green,
-            //             )
-            //           : Icon(Icons.bookmark_add_outlined),
-            //     );
-            //   },
-            // )
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _hasBeenPressed = !_hasBeenPressed;
-                });
+            StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("users-bookmarks")
+                  .doc(FirebaseAuth.instance.currentUser!.email)
+                  .collection("bookmarks")
+                  .where("teamName", isEqualTo: _teamName)
+                  .snapshots(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Text("");
+                }
+                return IconButton(
+                  onPressed: () => snapshot.data.docs.length == 0
+                      ? addtoBookmark()
+                      : deleteBookmark(),
+                  icon: snapshot.data.docs.length == 0
+                      ? Icon(Icons.bookmark_add_outlined)
+                      : Icon(
+                          Icons.bookmark_added,
+                          color: Colors.green,
+                        ),
+                );
               },
-              icon: _hasBeenPressed
-                  ? Icon(
-                      Icons.bookmark_added,
-                      color: Colors.green,
-                    )
-                  : Icon(Icons.bookmark_add_outlined),
             )
+            // IconButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       _hasBeenPressed = !_hasBeenPressed;
+            //     });
+            //   },
+            //   icon: _hasBeenPressed
+            //       ? Icon(
+            //           Icons.bookmark_added,
+            //           color: Colors.green,
+            //         )
+            //       : Icon(Icons.bookmark_add_outlined),
+            // )
           ],
           centerTitle: true,
           backgroundColor: Color(0xff633a88),
@@ -177,6 +202,14 @@ class _TeamScreenState extends State<TeamScreen> {
                         fontSize: 20, color: Colors.white),
                     textAlign: TextAlign.center),
                 SizedBox(height: 10.0),
+                // Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: 15),
+                //     child: IconButton(
+                //       icon: Icon(Icons.share),
+                //       onPressed: () async {
+                //         await launchUrl(Uri.parse('$_website'));
+                //       },
+                //     ))
               ],
             )),
       );
