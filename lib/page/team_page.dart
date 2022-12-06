@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'dart:convert';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,6 +53,25 @@ class _TeamScreenState extends State<TeamScreen> {
     getTeamDetails();
   }
 
+  // Future addtoBookmark() async {
+  //   final FirebaseAuth _auth = FirebaseAuth.instance;
+  //   var currentUser = _auth.currentUser;
+  //   CollectionReference _bookmarkRef =
+  //       FirebaseFirestore.instance.collection("users-bookmarks");
+  //   return _bookmarkRef
+  //       .doc(currentUser!.email)
+  //       .collection("bookmarks")
+  //       .doc()
+  //       .set({
+  //     "teamName": _teamName,
+  //     "crestURL": _crestURL,
+  //     "address": _address,
+  //     "website": _website,
+  //     "stadium": _stadium,
+  //     "containPNg": containPNG,
+  //   }).then((value) => print('Added to Bookmarks'));
+  // }
+
   @override
   Widget build(BuildContext context) {
     if (_teamName == null) {
@@ -77,6 +98,30 @@ class _TeamScreenState extends State<TeamScreen> {
         appBar: AppBar(
           title: Text('Team Details', style: GoogleFonts.montserrat()),
           actions: [
+            // StreamBuilder(
+            //   stream: FirebaseFirestore.instance
+            //       .collection("users-bookmarks")
+            //       .doc(FirebaseAuth.instance.currentUser!.email)
+            //       .collection("bookmarks")
+            //       .where("teamName", isEqualTo: _teamName)
+            //       .snapshots(),
+            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+            //     if (snapshot.data == null) {
+            //       return Text("");
+            //     }
+            //     return IconButton(
+            //       onPressed: () => snapshot.data.docs.length == 0
+            //           ? addtoBookmark()
+            //           : print("already"),
+            //       icon: snapshot.data.docs.length == 0
+            //           ? Icon(
+            //               Icons.bookmark_added,
+            //               color: Colors.green,
+            //             )
+            //           : Icon(Icons.bookmark_add_outlined),
+            //     );
+            //   },
+            // )
             IconButton(
               onPressed: () {
                 setState(() {
