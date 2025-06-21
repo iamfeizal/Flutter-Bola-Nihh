@@ -2,7 +2,7 @@
 
 Multi-platform app that displays European league standings and team details, with features like favorite bookmarking using Firestore and real-time data integration via football-data.org API. Implemented secure user authentication including login, registration, and password reset via email using Firebase Authentication.
 
-# Screenshots Features
+## Screenshots Features
 
 |                 Sign Up                 |                 Sign Ip                 |
 | :-------------------------------------: | :-------------------------------------: |
@@ -29,7 +29,7 @@ Multi-platform app that displays European league standings and team details, wit
 | :-----------------------------------------------: | :---------------------------------------------: |
 | ![Detail Team Page](screenshots/details-team.jpg) | ![Favorite Team Page](screenshots/fav-team.jpg) |
 
-# Dependencies
+## Dependencies
 
 - cupertino_icons: ^1.0.5
 - google_fonts: ^3.0.1
