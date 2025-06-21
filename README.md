@@ -1,6 +1,6 @@
 # Bola Nihh
 
-multi-platform app that displays European league standings and team details, with features like favorite bookmarking using Firestore and real-time data integration via football-data.org API. Implemented secure user authentication including login, registration, and password reset via email using Firebase Authentication.
+Multi-platform app that displays European league standings and team details, with features like favorite bookmarking using Firestore and real-time data integration via football-data.org API. Implemented secure user authentication including login, registration, and password reset via email using Firebase Authentication.
 
 # Screenshots Features
 
